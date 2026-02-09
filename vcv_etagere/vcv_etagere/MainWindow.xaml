@@ -7,11 +7,34 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid >
-		<Button
+        <Button
         Content="LA 440"
         Width="120"
         Height="50"
-        PreviewMouseLeftButtonDown="Button_Down"
-        PreviewMouseLeftButtonUp="Button_Up"/>
-	</Grid>
+        PreviewMouseLeftButtonDown="Button_Down" Margin="120,178,560,206"/>
+
+        <Button
+        Content="Mute"
+        Width="120"
+        Height="50"
+        PreviewMouseLeftButtonDown="Button_Down_Mute" 
+        Margin="120,279,560,105"/>
+
+        <Menu Margin="531,208,49,125">
+            <UIElement.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </UIElement.RenderTransform>
+            <MenuItem Header="TypeOnde">
+                <MenuItem Header="Sinus" Tag="{x:Static local:OscType.Sin}" Click="Menu_Change_Onde"/>
+                <MenuItem Header="Square" Tag="{x:Static local:OscType.Square}" Click="Menu_Change_Onde"/>
+                <MenuItem Header="Saw" Tag="{x:Static local:OscType.Saw}" Click="Menu_Change_Onde"/>
+            </MenuItem>
+        </Menu>
+
+    </Grid>
 </Window>

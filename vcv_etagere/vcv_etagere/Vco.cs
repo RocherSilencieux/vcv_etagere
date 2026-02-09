@@ -10,6 +10,7 @@ namespace vcv_etagere
 
         public Vco()
         {
+
             osc = new SignalGenerator()
             {
                 Gain = 0.2f,
@@ -31,7 +32,14 @@ namespace vcv_etagere
 
         public void NoteOff()
         {
-            // volontairement vide pour le test
+            output.Stop();
         }
+
+        public void ChangeTypeSignal(SignalGeneratorType type)
+        {
+            osc.Type = type;
+        }
+
+
     }
 }
