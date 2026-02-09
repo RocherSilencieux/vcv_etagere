@@ -7,9 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid >
-        <Button Content="play" Width="100px" Height="50px">
-            
-        </Button>
-
-    </Grid>
+		<Button
+        Content="LA 440"
+        Width="120"
+        Height="50"
+        PreviewMouseLeftButtonDown="Button_Down"
+        PreviewMouseLeftButtonUp="Button_Up"/>
+	</Grid>
 </Window>

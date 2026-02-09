@@ -1,24 +1,27 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace vcv_etagere
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private Vco vcoTest;
+
         public MainWindow()
         {
             InitializeComponent();
+            vcoTest = new Vco();
+        }
+
+        private void Button_Down(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Note On");
+            vcoTest.NoteOn(440);
+        }
+
+        private void Button_Up(object sender, MouseButtonEventArgs e)
+        {
+            vcoTest.NoteOff();
         }
     }
 }
