@@ -45,9 +45,12 @@ namespace vcv_etagere
             }
         }
 
-        private void slValue_Copy2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<T> e)
+        private void slPitch_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            if (vcoTest != null)
+            {
+                vcoTest.NoteOn(e.NewValue);
+            }
         }
     }
 }

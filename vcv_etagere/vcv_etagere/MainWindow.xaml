@@ -20,19 +20,27 @@
         PreviewMouseLeftButtonDown="Button_Down_Mute" 
         Margin="120,279,560,105"/>
 
-        <DockPanel VerticalAlignment="Center" Margin="10"/>
-        <Slider Value="440" Minimum="0" Maximum="3400" TickPlacement="BottomRight" TickFrequency="0" IsSnapToTickEnabled="True" x:Name="slValue_Copy1" Margin="10,149,404,261" >
-            <Slider.RenderTransform>
+        <Slider x:Name="slPitch"
+        Value="440"
+        Minimum="50"
+        Maximum="2000"
+        ValueChanged="slPitch_ValueChanged"
+        Margin="41,150,445,251">
+            <UIElement.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
-            </Slider.RenderTransform>
+            </UIElement.RenderTransform>
         </Slider>
-        <TextBox Text="{Binding Value, ElementName=slValue, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" Margin="401,152,359,264" />
-        
+
+        <TextBox Text="{Binding Value, ElementName=slPitch, UpdateSourceTrigger=PropertyChanged}"
+         TextAlignment="Right"
+         Width="80"
+         Margin="10"/>
+
         <Menu Margin="531,66,49,267">
             <Menu.RenderTransform>
                 <TransformGroup>        
