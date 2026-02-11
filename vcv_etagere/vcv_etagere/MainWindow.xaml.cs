@@ -45,7 +45,9 @@ namespace vcv_etagere
             }
         }
 
+        private void slValue_Copy2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<T> e)
+        {
 
-
+        }
     }
 }

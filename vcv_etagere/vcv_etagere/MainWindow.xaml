@@ -11,7 +11,7 @@
         Content="LA 440"
         Width="120"
         Height="50"
-        PreviewMouseLeftButtonDown="Button_Down" Margin="120,178,560,206"/>
+        PreviewMouseLeftButtonDown="Button_Down" Margin="120,80,560,304"/>
 
         <Button
         Content="Mute"
@@ -20,21 +20,35 @@
         PreviewMouseLeftButtonDown="Button_Down_Mute" 
         Margin="120,279,560,105"/>
 
-        <Menu Margin="531,208,49,125">
-            <UIElement.RenderTransform>
+        <DockPanel VerticalAlignment="Center" Margin="10"/>
+        <Slider Value="440" Minimum="0" Maximum="3400" TickPlacement="BottomRight" TickFrequency="0" IsSnapToTickEnabled="True" x:Name="slValue_Copy1" Margin="10,149,404,261" >
+            <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
-            </UIElement.RenderTransform>
+            </Slider.RenderTransform>
+        </Slider>
+        <TextBox Text="{Binding Value, ElementName=slValue, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" Margin="401,152,359,264" />
+        
+        <Menu Margin="531,66,49,267">
+            <Menu.RenderTransform>
+                <TransformGroup>        
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Menu.RenderTransform>
             <MenuItem Header="TypeOnde">
                 <MenuItem Header="Sinus" Tag="{x:Static local:OscType.Sin}" Click="Menu_Change_Onde"/>
                 <MenuItem Header="Square" Tag="{x:Static local:OscType.Square}" Click="Menu_Change_Onde"/>
                 <MenuItem Header="Saw" Tag="{x:Static local:OscType.Saw}" Click="Menu_Change_Onde"/>
             </MenuItem>
         </Menu>
+
 
     </Grid>
 </Window>
