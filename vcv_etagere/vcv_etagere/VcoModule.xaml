@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="vcv_etagere.VcoModule"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="220"
+             Height="350">
+
+    <Border BorderBrush="Black"
+            BorderThickness="2"
+            CornerRadius="8"
+            Background="#DDDDDD"
+            Padding="10">
+
+        <StackPanel>
+
+            <!-- Titre module -->
+            <TextBlock Text="VCO"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,15"/>
+
+            <!-- ===== PITCH ===== -->
+            <TextBlock Text="Pitch (Hz)"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,5"/>
+
+            <Slider x:Name="PitchSlider"
+                    Minimum="50"
+                    Maximum="2000"
+                    Value="440"
+                    ValueChanged="PitchSlider_ValueChanged"/>
+
+            <TextBox Text="{Binding Value, ElementName=PitchSlider, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0,5,0,15"
+                     HorizontalContentAlignment="Right"/>
+
+
+            <!-- ===== WAVEFORM ===== -->
+            <TextBlock Text="Waveform"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,5"/>
+
+            <ComboBox x:Name="WaveCombo"
+                      Margin="0,0,0,15"
+                      SelectionChanged="WaveCombo_SelectionChanged">
+                <ComboBoxItem Content="Sin"/>
+                <ComboBoxItem Content="Square"/>
+                <ComboBoxItem Content="Saw"/>
+            </ComboBox>
+
+
+            <!-- ===== GAIN ===== -->
+            <TextBlock Text="Volume"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,5"/>
+
+            <Slider x:Name="GainSlider"
+                    Minimum="0"
+                    Maximum="0.5"
+                    Value="0"
+                    ValueChanged="GainSlider_ValueChanged"/>
+
+        </StackPanel>
+    </Border>
+</UserControl>

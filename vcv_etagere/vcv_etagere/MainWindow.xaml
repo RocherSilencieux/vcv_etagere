@@ -1,62 +1,16 @@
 ﻿<Window x:Class="vcv_etagere.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:vcv_etagere"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid >
-        <Button
-        Content="LA 440"
-        Width="120"
-        Height="50"
-        PreviewMouseLeftButtonDown="Button_Down" Margin="120,80,560,304"/>
+        Title="Rack"
+        Height="500"
+        Width="900">
 
-        <Button
-        Content="Mute"
-        Width="120"
-        Height="50"
-        PreviewMouseLeftButtonDown="Button_Down_Mute" 
-        Margin="120,279,560,105"/>
+    <Grid Background="#222">
 
-        <Slider x:Name="slPitch"
-        Value="440"
-        Minimum="50"
-        Maximum="2000"
-        ValueChanged="slPitch_ValueChanged"
-        Margin="41,150,445,251">
-            <UIElement.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </UIElement.RenderTransform>
-        </Slider>
-
-        <TextBox Text="{Binding Value, ElementName=slPitch, UpdateSourceTrigger=PropertyChanged}"
-         TextAlignment="Right"
-         Width="80"
-         Margin="10"/>
-
-        <Menu Margin="531,66,49,267">
-            <Menu.RenderTransform>
-                <TransformGroup>        
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Menu.RenderTransform>
-            <MenuItem Header="TypeOnde">
-                <MenuItem Header="Sinus" Tag="{x:Static local:OscType.Sin}" Click="Menu_Change_Onde"/>
-                <MenuItem Header="Square" Tag="{x:Static local:OscType.Square}" Click="Menu_Change_Onde"/>
-                <MenuItem Header="Saw" Tag="{x:Static local:OscType.Saw}" Click="Menu_Change_Onde"/>
-            </MenuItem>
-        </Menu>
+        <local:VcoModule Margin="50"/>
 
 
     </Grid>
+
 </Window>
