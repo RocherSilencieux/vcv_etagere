@@ -12,14 +12,14 @@ namespace vcv_etagere
         {
             InitializeComponent();
 
-            engine = new VcoEngine();
+            //engine = new VcoEngine();
             WaveCombo.SelectedIndex = 0;
         }
 
         private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (engine != null)
-                engine.SetFrequency(e.NewValue);
+            //if (engine != null)
+                //engine.SetFrequency(e.NewValue);
         }
 
 
@@ -27,22 +27,22 @@ namespace vcv_etagere
         {
             switch (WaveCombo.SelectedIndex)
             {
-                case 0:
-                    engine.SetWaveform(OscType.Sin);
-                    break;
-                case 1:
-                    engine.SetWaveform(OscType.Square);
-                    break;
-                case 2:
-                    engine.SetWaveform(OscType.Saw);
-                    break;
+                //case 0:
+                //    engine.SetWaveform(OscType.Sin);
+                //    break;
+                //case 1:
+                //    engine.SetWaveform(OscType.Square);
+                //    break;
+                //case 2:
+                //    engine.SetWaveform(OscType.Saw);
+                //    break;
             }
         }
 
         private void GainSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (engine != null)
-                engine.SetGain((float)e.NewValue);
+            //if (engine != null)
+            //    engine.SetGain((float)e.NewValue);
         }
 
     }

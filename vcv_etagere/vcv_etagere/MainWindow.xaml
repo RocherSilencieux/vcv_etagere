@@ -7,9 +7,8 @@
         Width="900">
 
     <Grid Background="#222">
-
-        <local:VcoModule Margin="50"/>
-
+        <!--<local:VcoModule Margin="50"/>
+        <local:VcoModule Margin="78,67,602,67"/>-->
 
     </Grid>
 

@@ -7,6 +7,12 @@ namespace vcv_etagere
         public MainWindow()
         {
             InitializeComponent();
+
+            AudioEngine audio = new AudioEngine();
+            VcoEngine vco = new VcoEngine(440);
+
+            audio.input = vco;
+
         }
     }
 }

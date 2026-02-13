@@ -12,14 +12,12 @@
 
         <StackPanel>
 
-            <!-- Titre module -->
             <TextBlock Text="VCO"
                        FontSize="18"
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
                        Margin="0,0,0,15"/>
 
-            <!-- ===== PITCH ===== -->
             <TextBlock Text="Pitch (Hz)"
                        FontWeight="SemiBold"
                        Margin="0,0,0,5"/>
@@ -35,7 +33,6 @@
                      HorizontalContentAlignment="Right"/>
 
 
-            <!-- ===== WAVEFORM ===== -->
             <TextBlock Text="Waveform"
                        FontWeight="SemiBold"
                        Margin="0,0,0,5"/>
@@ -49,7 +46,6 @@
             </ComboBox>
 
 
-            <!-- ===== GAIN ===== -->
             <TextBlock Text="Volume"
                        FontWeight="SemiBold"
                        Margin="0,0,0,5"/>
