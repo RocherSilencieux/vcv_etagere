@@ -43,6 +43,7 @@
                 <ComboBoxItem Content="Sin"/>
                 <ComboBoxItem Content="Square"/>
                 <ComboBoxItem Content="Saw"/>
+                <ComboBoxItem Content="Triangle"/>
             </ComboBox>
 
 

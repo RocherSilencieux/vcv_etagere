@@ -6,7 +6,7 @@ namespace vcv_etagere
 {
     public partial class VcoModule : UserControl
     {
-        private VcoEngine engine;
+        public VcoEngine Engine { get; set; }
 
         public VcoModule()
         {
@@ -18,32 +18,42 @@ namespace vcv_etagere
 
         private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //if (engine != null)
-                //engine.SetFrequency(e.NewValue);
+            if (Engine != null)
+                Engine.SetFrequency((float)e.NewValue);
         }
+
 
 
         private void WaveCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (Engine == null) return;
+
             switch (WaveCombo.SelectedIndex)
             {
-                //case 0:
-                //    engine.SetWaveform(OscType.Sin);
-                //    break;
-                //case 1:
-                //    engine.SetWaveform(OscType.Square);
-                //    break;
-                //case 2:
-                //    engine.SetWaveform(OscType.Saw);
-                //    break;
+                case 0:
+                    Engine.SetWaveform(Wave.sin);
+                    break;
+
+                case 1:
+                    Engine.SetWaveform(Wave.square);
+                    break;
+
+                case 2:
+                    Engine.SetWaveform(Wave.saw);
+                    break;
+
+                case 3:
+                    Engine.SetWaveform(Wave.triangle);
+                    break;
             }
         }
 
         private void GainSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //if (engine != null)
-            //    engine.SetGain((float)e.NewValue);
+            if (Engine != null)
+                Engine.SetGain((float)e.NewValue);
         }
+
 
     }
 }

@@ -1,4 +1,4 @@
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.Security.Cryptography.X509Certificates;
 
@@ -8,6 +8,8 @@ namespace vcv_etagere
     public enum Wave {
         sin,
         square,
+        saw,
+        triangle
     }
 
     public class VcoEngine : IAudioNode
@@ -15,6 +17,7 @@ namespace vcv_etagere
         public Wave waveShape = Wave.sin;
         public float _phase;
         public float _frequency = 440;
+        private float _gain = 0.2f;
 
         public VcoEngine(float frequency)
         {
@@ -30,51 +33,51 @@ namespace vcv_etagere
                 switch (waveShape)
                 {
                     case Wave.sin:
-
                         sampleValue = (float)Math.Sin(_phase);
+                        break;
+
+                    case Wave.square:
+                        sampleValue = Math.Sin(_phase) >= 0 ? 1f : -1f;
+                        break;
+
+                    case Wave.saw:
+                        // Normaliser la phase entre 0 et 1
+                        float normalizedPhase = _phase / (2 * (float)Math.PI);
+                        sampleValue = 2f * normalizedPhase - 1f;
+                        break;
+
+                    case Wave.triangle:
+                        float p = _phase / (2 * (float)Math.PI);
+                        sampleValue = 2f * Math.Abs(2f * p - 1f) - 1f;
                         break;
                 }
 
-                buffer[i] = sampleValue;
+                sampleValue *= _gain;
 
-                // Augmenter la phase en fonction de la frequence
+                buffer[offset + i] = sampleValue;
+
                 _phase += (float)(2 * Math.PI * _frequency / 44100);
 
-
-                // Reset la phase quand elle deviens trop grande
-                if(_phase > 2 * Math.PI)
-                {
+                if (_phase > 2 * Math.PI)
                     _phase -= (float)(2 * Math.PI);
-                }
-
             }
         }
 
-        //public void SetFrequency(double frequency)
-        //{
-        //    osc.Frequency = frequency;
-        //}
 
-        //public void SetWaveform(OscType type)
-        //{
-        //    switch (type)
-        //    {
-        //        case OscType.Sin:
-        //            osc.Type = SignalGeneratorType.Sin;
-        //            break;
-        //        case OscType.Square:
-        //            osc.Type = SignalGeneratorType.Square;
-        //            break;
-        //        case OscType.Saw:
-        //            osc.Type = SignalGeneratorType.SawTooth;
-        //            break;
-        //    }
-        //}
+        public void SetFrequency(float freq)
+        {
+            _frequency = freq;
+        }
 
-        //public void SetGain(float gain)
-        //{
-        //    osc.Gain = gain;
-        //}
+        public void SetGain(float gain)
+        {
+            _gain = gain;
+        }
+
+        public void SetWaveform(Wave wave)
+        {
+            waveShape = wave;
+        }
 
     }
 }

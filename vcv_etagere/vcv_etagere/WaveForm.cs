@@ -4,6 +4,7 @@ namespace vcv_etagere
     {
         Sin,
         Square,
-        Saw
+        Saw,
+        triangle
     }
 }
