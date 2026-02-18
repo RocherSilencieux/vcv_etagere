@@ -13,7 +13,9 @@ namespace vcv_etagere
 
             audio.input = vco;
 
-            MyVcoModule.Engine = vco; //  LIAISON
+            //pour lier les trucs la
+            MyVcoModule.Engine = vco; 
+            MasterModule.Engine = audio;
         }
     }
 

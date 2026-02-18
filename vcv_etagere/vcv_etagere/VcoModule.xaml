@@ -45,18 +45,6 @@
                 <ComboBoxItem Content="Saw"/>
                 <ComboBoxItem Content="Triangle"/>
             </ComboBox>
-
-
-            <TextBlock Text="Volume"
-                       FontWeight="SemiBold"
-                       Margin="0,0,0,5"/>
-
-            <Slider x:Name="GainSlider"
-                    Minimum="0"
-                    Maximum="0.5"
-                    Value="0"
-                    ValueChanged="GainSlider_ValueChanged"/>
-
         </StackPanel>
     </Border>
 </UserControl>

@@ -47,13 +47,5 @@ namespace vcv_etagere
                     break;
             }
         }
-
-        private void GainSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Engine != null)
-                Engine.SetGain((float)e.NewValue);
-        }
-
-
     }
 }
