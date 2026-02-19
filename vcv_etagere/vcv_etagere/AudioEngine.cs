@@ -45,6 +45,7 @@ namespace vcv_etagere
             _enabled = enabled;
         }
 
+        //On ecrit dans le buffer
         public int Read(float[] buffer, int offset, int count)
         {
             if (Input == null)
@@ -73,6 +74,7 @@ namespace vcv_etagere
             _waveOut.Dispose();
         }
 
+        //on clear le buffer pour pas avoir de bug chiant sur la carte son la sinon ça fait bipbipbipbip
         private void ClearWaveOutBuffer()
         {
             if (_waveOut == null) return;

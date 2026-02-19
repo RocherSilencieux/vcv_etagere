@@ -22,6 +22,7 @@ namespace vcv_etagere
             MasterModule.PortIn.Visual.MouseLeftButtonDown += PortClicked;
         }
 
+        //pour recuperer les port ( pas les cochons hein)
         private void PortClicked(object sender, MouseButtonEventArgs e)
         {
             AudioPort clickedPort = null;
@@ -73,6 +74,7 @@ namespace vcv_etagere
             selectedPort = null;
         }
 
+        //gere le drag des cables
         private void DragCable(object sender, MouseEventArgs e)
         {
             if (tempCable == null || selectedPort == null)
@@ -84,6 +86,7 @@ namespace vcv_etagere
             tempCable.Data = CreateBezier(start, end);
         }
 
+        //On fait les belle courbes la meme ya des maths chiant
         private PathGeometry CreateBezier(Point start, Point end)
         {
             double offset = Math.Abs(end.X - start.X) * 0.5;
@@ -102,6 +105,7 @@ namespace vcv_etagere
             return new PathGeometry(new[] { figure });
         }
 
+        //desin des cables 
         private void DrawCable(AudioPort outPort, AudioPort inPort)
         {
             var path = new Path
