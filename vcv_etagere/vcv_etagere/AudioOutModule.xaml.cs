@@ -16,10 +16,11 @@ namespace vcv_etagere
         {
             InitializeComponent();
 
-
             Engine = new AudioEngine();
-            _timer = new DispatcherTimer();
-            _timer.Interval = System.TimeSpan.FromMilliseconds(50);
+            _timer = new DispatcherTimer
+            {
+                Interval = System.TimeSpan.FromMilliseconds(50)
+            };
             _timer.Tick += UpdateVuMeter;
             _timer.Start();
         }
@@ -31,14 +32,12 @@ namespace vcv_etagere
 
         private void MasterSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (Engine != null)
-                Engine.SetMasterGain((float)e.NewValue);
+            Engine?.SetMasterGain((float)e.NewValue);
         }
 
         private void MuteButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (Engine != null)
-                Engine.SetEnabled(!MuteButton.IsChecked.Value);
+            Engine?.SetEnabled(!MuteButton.IsChecked.Value);
         }
 
         private void UpdateVuMeter(object sender, System.EventArgs e)
@@ -49,12 +48,12 @@ namespace vcv_etagere
 
         public void DisconnectInput()
         {
-            if (Engine != null)
-            {
-                Engine.Input = null;  
-                Engine.Stop();        
-            }
+            Engine?.DisconnectInput(); 
         }
 
+        public void ReconnectInput(IAudioNode node)
+        {
+            Engine?.SetInput(node); 
+        }
     }
 }

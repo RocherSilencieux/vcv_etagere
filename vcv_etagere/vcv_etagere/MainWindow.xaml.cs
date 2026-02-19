@@ -11,16 +11,13 @@ namespace vcv_etagere
         private AudioPort selectedPort = null;
         private Path tempCable = null;
 
-
         public MainWindow()
         {
             InitializeComponent();
 
-            // Initialisation des ports
             MyVcoModule.InitializePort();
             MasterModule.InitializePort();
 
-            // Brancher les events souris sur les ports
             MyVcoModule.PortOut.Visual.MouseLeftButtonDown += PortClicked;
             MasterModule.PortIn.Visual.MouseLeftButtonDown += PortClicked;
         }
@@ -38,7 +35,7 @@ namespace vcv_etagere
             if (clickedPort == null)
                 return;
 
-            //  PREMIER CLIC
+            // PREMIER CLIC
             if (selectedPort == null)
             {
                 selectedPort = clickedPort;
@@ -58,7 +55,6 @@ namespace vcv_etagere
             }
 
             // DEUXIÈME CLIC
-
             MouseMove -= DragCable;
 
             if (tempCable != null)
@@ -66,16 +62,15 @@ namespace vcv_etagere
 
             if (!selectedPort.IsInput && clickedPort.IsInput)
             {
-                if (selectedPort.Node != null && MasterModule.Engine != null)
+                if (selectedPort.Node != null )
                 {
-                    MasterModule.Engine.Input = selectedPort.Node;
+                    MasterModule.Engine.SetInput(selectedPort.Node);
                     DrawCable(selectedPort, clickedPort);
                 }
             }
 
             tempCable = null;
             selectedPort = null;
-
         }
 
         private void DragCable(object sender, MouseEventArgs e)
@@ -89,15 +84,11 @@ namespace vcv_etagere
             tempCable.Data = CreateBezier(start, end);
         }
 
-        //Fonction pour faire les belles courbes la
         private PathGeometry CreateBezier(Point start, Point end)
         {
             double offset = Math.Abs(end.X - start.X) * 0.5;
 
-            var figure = new PathFigure
-            {
-                StartPoint = start
-            };
+            var figure = new PathFigure { StartPoint = start };
 
             var bezier = new BezierSegment
             {
@@ -108,18 +99,16 @@ namespace vcv_etagere
             };
 
             figure.Segments.Add(bezier);
-
             return new PathGeometry(new[] { figure });
         }
-
 
         private void DrawCable(AudioPort outPort, AudioPort inPort)
         {
             var path = new Path
             {
                 Stroke = Brushes.Orange,
-                StrokeThickness = 6, 
-                Fill = Brushes.Transparent, 
+                StrokeThickness = 6,
+                Fill = Brushes.Transparent,
                 Cursor = Cursors.Hand
             };
 
@@ -133,15 +122,11 @@ namespace vcv_etagere
             // Suppression clic droit
             path.MouseRightButtonDown += (s, e) =>
             {
-                MasterModule.DisconnectInput(); 
                 CableLayer.Children.Remove(path);
+                MasterModule.Engine.DisconnectInput();
             };
-
 
             CableLayer.Children.Add(path);
         }
-
-
-
     }
 }

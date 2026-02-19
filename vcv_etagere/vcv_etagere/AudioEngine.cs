@@ -6,11 +6,9 @@ namespace vcv_etagere
     public class AudioEngine : ISampleProvider, IDisposable
     {
         public WaveFormat WaveFormat { get; }
-
         private WaveOutEvent _waveOut;
 
-        public IAudioNode Input;
-
+        public IAudioNode Input { get; private set; }
         private float _masterGain = 0.8f;
         private bool _enabled = true;
 
@@ -19,41 +17,22 @@ namespace vcv_etagere
         public AudioEngine()
         {
             WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
-
             _waveOut = new WaveOutEvent { DesiredLatency = 100 };
             _waveOut.Init(this);
             _waveOut.Play();
         }
 
-        public int Read(float[] buffer, int offset, int count)
+        public void SetInput(IAudioNode node)
         {
-            if (Input == null)
-            {
-                Array.Clear(buffer, offset, count);
-                return count;
-            }
+            Input = node;
+            _enabled = true;
+        }
 
-            Input.WriteAudio(buffer, offset, count);
-
-            float sum = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                float sample = buffer[offset + i];
-
-                if (_enabled)
-                    sample *= _masterGain;
-                else
-                    sample = 0;
-
-                buffer[offset + i] = sample;
-
-                sum += sample * sample;
-            }
-
-            CurrentLevel = (float)Math.Sqrt(sum / count);
-
-            return count;
+        public void DisconnectInput()
+        {
+            Input = null;       
+            _enabled = false;    
+            ClearWaveOutBuffer();
         }
 
         public void SetMasterGain(float gain)
@@ -66,14 +45,45 @@ namespace vcv_etagere
             _enabled = enabled;
         }
 
+        public int Read(float[] buffer, int offset, int count)
+        {
+            if (Input == null)
+            {
+                Array.Clear(buffer, offset, count);
+                CurrentLevel = 0;
+                return count;
+            }
+
+            Input.WriteAudio(buffer, offset, count);
+
+            float sum = 0;
+            for (int i = 0; i < count; i++)
+            {
+                float sample = buffer[offset + i];
+                buffer[offset + i] = _enabled ? sample * _masterGain : 0;
+                sum += sample * sample;
+            }
+
+            CurrentLevel = (float)Math.Sqrt(sum / count);
+            return count;
+        }
+
         public void Dispose()
         {
             _waveOut.Dispose();
         }
 
-        public void Stop()
+        private void ClearWaveOutBuffer()
         {
-            _waveOut.Stop();
+            if (_waveOut == null) return;
+
+            _waveOut.Stop();     
+                                
+            float[] silence = new float[WaveFormat.SampleRate]; 
+            Read(silence, 0, silence.Length);                 
+            _waveOut.Init(this);                               
+            _waveOut.Play();                                 
+            _enabled = true;                              
         }
 
     }
