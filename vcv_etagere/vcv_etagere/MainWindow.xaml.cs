@@ -46,7 +46,8 @@ namespace vcv_etagere
                 tempCable = new Path
                 {
                     Stroke = Brushes.Yellow,
-                    StrokeThickness = 4
+                    StrokeThickness = 4,
+                    IsHitTestVisible = false
                 };
 
                 Panel.SetZIndex(tempCable, 1000);
@@ -117,7 +118,8 @@ namespace vcv_etagere
             var path = new Path
             {
                 Stroke = Brushes.Orange,
-                StrokeThickness = 4,
+                StrokeThickness = 6, 
+                Fill = Brushes.Transparent, 
                 Cursor = Cursors.Hand
             };
 
@@ -131,9 +133,10 @@ namespace vcv_etagere
             // Suppression clic droit
             path.MouseRightButtonDown += (s, e) =>
             {
+                MasterModule.DisconnectInput(); 
                 CableLayer.Children.Remove(path);
-                MasterModule.Engine.Input = null;
             };
+
 
             CableLayer.Children.Add(path);
         }

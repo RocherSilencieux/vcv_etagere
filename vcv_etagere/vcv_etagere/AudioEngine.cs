@@ -70,5 +70,11 @@ namespace vcv_etagere
         {
             _waveOut.Dispose();
         }
+
+        public void Stop()
+        {
+            _waveOut.Stop();
+        }
+
     }
 }

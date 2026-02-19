@@ -17,11 +17,11 @@
 
         </StackPanel>
 
-        <!-- Layer câbles -->
         <Canvas x:Name="CableLayer"
         Panel.ZIndex="1"
-        IsHitTestVisible="False"/>
-         
+        IsHitTestVisible="True"/>
+
+
 
     </Grid>
 

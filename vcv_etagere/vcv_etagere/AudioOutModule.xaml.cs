@@ -46,5 +46,15 @@ namespace vcv_etagere
             if (Engine != null)
                 VuMeter.Value = Engine.CurrentLevel;
         }
+
+        public void DisconnectInput()
+        {
+            if (Engine != null)
+            {
+                Engine.Input = null;  
+                Engine.Stop();        
+            }
+        }
+
     }
 }
