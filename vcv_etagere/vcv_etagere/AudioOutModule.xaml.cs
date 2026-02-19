@@ -6,7 +6,9 @@ namespace vcv_etagere
 {
     public partial class AudioOutModule : UserControl
     {
-        public AudioEngine Engine { get; set; }
+        public AudioEngine Engine;
+        public AudioPort PortIn;
+        public IAudioNode InputNode;
 
         private DispatcherTimer _timer;
 
@@ -14,10 +16,17 @@ namespace vcv_etagere
         {
             InitializeComponent();
 
+
+            Engine = new AudioEngine();
             _timer = new DispatcherTimer();
             _timer.Interval = System.TimeSpan.FromMilliseconds(50);
             _timer.Tick += UpdateVuMeter;
             _timer.Start();
+        }
+
+        public void InitializePort()
+        {
+            PortIn = new AudioPort(null, true, InputPort);
         }
 
         private void MasterSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

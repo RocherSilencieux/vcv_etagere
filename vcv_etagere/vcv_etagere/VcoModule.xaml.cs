@@ -6,14 +6,22 @@ namespace vcv_etagere
 {
     public partial class VcoModule : UserControl
     {
-        public VcoEngine Engine { get; set; }
+       
+        public AudioPort PortOut;
+        public VcoEngine Engine;
 
         public VcoModule()
         {
             InitializeComponent();
 
-            //engine = new VcoEngine();
+
+            Engine = new VcoEngine(440);
             WaveCombo.SelectedIndex = 0;
+        }
+
+        public void InitializePort()
+        {
+            PortOut = new AudioPort(Engine, false, OutputPort);
         }
 
         private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

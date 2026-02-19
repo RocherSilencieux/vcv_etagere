@@ -45,6 +45,14 @@
                 <ComboBoxItem Content="Saw"/>
                 <ComboBoxItem Content="Triangle"/>
             </ComboBox>
+
+            <Ellipse x:Name="OutputPort"
+                 Width="16"
+                 Height="16"
+                 Fill="Orange"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"
+                 Margin="5"/>
         </StackPanel>
     </Border>
 </UserControl>

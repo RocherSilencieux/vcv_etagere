@@ -43,6 +43,15 @@
                          Minimum="0"
                          Maximum="0.5"/>
 
+            <Ellipse x:Name="InputPort"
+                 Width="16"
+                 Height="16"
+                 Fill="LightBlue"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Bottom"
+                 Margin="5"/>
+
+
         </StackPanel>
     </Border>
 </UserControl>

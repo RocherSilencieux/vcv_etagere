@@ -7,10 +7,24 @@
         Width="900">
 
     <Grid Background="#222">
-        <local:VcoModule x:Name="MyVcoModule" Margin="340,67,340,67"/>
-        <local:AudioOutModule x:Name="MasterModule" Margin="50,70,626,90"/>
- 
+
+        <!-- Layer modules -->
+        <StackPanel Orientation="Horizontal"
+                Panel.ZIndex="0">
+
+            <local:VcoModule x:Name="MyVcoModule" Margin="50"/>
+            <local:AudioOutModule x:Name="MasterModule" Margin="50"/>
+
+        </StackPanel>
+
+        <!-- Layer câbles -->
+        <Canvas x:Name="CableLayer"
+        Panel.ZIndex="1"
+        IsHitTestVisible="False"/>
+         
 
     </Grid>
+
+
 
 </Window>

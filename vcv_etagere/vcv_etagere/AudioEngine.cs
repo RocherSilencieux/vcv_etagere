@@ -9,7 +9,7 @@ namespace vcv_etagere
 
         private WaveOutEvent _waveOut;
 
-        public IAudioNode input;
+        public IAudioNode Input;
 
         private float _masterGain = 0.8f;
         private bool _enabled = true;
@@ -27,10 +27,13 @@ namespace vcv_etagere
 
         public int Read(float[] buffer, int offset, int count)
         {
-            if (input == null)
-                return 0;
+            if (Input == null)
+            {
+                Array.Clear(buffer, offset, count);
+                return count;
+            }
 
-            input.WriteAudio(buffer, offset, count);
+            Input.WriteAudio(buffer, offset, count);
 
             float sum = 0;
 
