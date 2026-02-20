@@ -1,4 +1,4 @@
-﻿using NAudio.Wave;
+﻿ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.Security.Cryptography.X509Certificates;
 
@@ -16,12 +16,26 @@ namespace vcv_etagere
     {
         public Wave waveShape = Wave.sin;
         public float _phase;
-        public float _frequency = 440;
         private float _gain = 0.2f;
+
+        private LinearRamp _rampFrequency = new LinearRamp(44100, 0.05f);
+        // this is local frequency
+        public float _frequency = 440;
+        public float Frequency
+        {
+            get => _frequency;
+            set {
+
+                _rampFrequency.Target = value;
+                _frequency = value;
+
+            } 
+        }
 
         public VcoEngine(float frequency)
         {
             _frequency = frequency;
+            _rampFrequency.Target = _frequency;
         }
 
         public void WriteAudio(float[] buffer, int offset, int count)
@@ -56,7 +70,7 @@ namespace vcv_etagere
 
                 buffer[offset + i] = sampleValue;
 
-                _phase += (float)(2 * Math.PI * _frequency / 44100);
+                _phase += (float)(2 * Math.PI * _rampFrequency.Next() / 44100);
 
                 if (_phase > 2 * Math.PI)
                     _phase -= (float)(2 * Math.PI);

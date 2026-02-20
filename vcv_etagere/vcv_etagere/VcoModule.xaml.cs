@@ -19,7 +19,7 @@ namespace vcv_etagere
         private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Engine != null)
-                Engine.SetFrequency((float)e.NewValue);
+                Engine.Frequency = (float)e.NewValue;
         }
 
 
