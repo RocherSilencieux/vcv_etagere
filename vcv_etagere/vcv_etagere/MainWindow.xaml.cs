@@ -16,6 +16,8 @@ namespace vcv_etagere
         private AudioOutModule currentMaster = null;
 
         private List<AudioPort> allPorts = new List<AudioPort>();
+        private List<Cable> allCables = new List<Cable>();
+
 
         public MainWindow()
         {
@@ -30,12 +32,25 @@ namespace vcv_etagere
             if (module.Parent is Panel panel)
                 panel.Children.Remove(module);
 
+            // Supprimer tous les câbles liés à ce module
+            var cablesToRemove = allCables
+                .Where(c =>
+                    c.OutPort.Visual.IsDescendantOf(module) ||
+                    c.InPort.Visual.IsDescendantOf(module))
+                .ToList();
+
+            foreach (var cable in cablesToRemove)
+            {
+                RemoveCable(cable);
+            }
+
+            // Supprimer ports liés
+            allPorts.RemoveAll(p => p.Visual.IsDescendantOf(module));
+
             if (module == currentMaster)
                 currentMaster = null;
-
-            // Supprimer les ports liés au module
-            allPorts.RemoveAll(p => p.Visual.IsDescendantOf(module));
         }
+
 
         // ==============================
         // PORT CLICK
@@ -165,20 +180,23 @@ namespace vcv_etagere
 
             Panel.SetZIndex(path, 900);
 
+            var cable = new Cable
+            {
+                OutPort = outPort,
+                InPort = inPort,
+                Visual = path
+            };
+
             // Suppression clic droit
             path.MouseRightButtonDown += (s, e) =>
             {
-                CableLayer.Children.Remove(path);
-
-                if (inPort.Visual.Tag is IAudioInput inputModule)
-                {
-                    inputModule.Disconnect();
-                }
+                RemoveCable(cable);
             };
 
-
+            allCables.Add(cable);
             CableLayer.Children.Add(path);
         }
+
 
         // ==============================
         // CONTEXT MENU
@@ -244,5 +262,18 @@ namespace vcv_etagere
           
 
         }
+
+        private void RemoveCable(Cable cable)
+        {
+            // Déconnecter audio
+            if (cable.InPort.Visual.Tag is IAudioInput inputModule)
+            {
+                inputModule.Disconnect();
+            }
+
+            CableLayer.Children.Remove(cable.Visual);
+            allCables.Remove(cable);
+        }
+
     }
 }

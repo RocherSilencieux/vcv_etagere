@@ -4,8 +4,9 @@ namespace vcv_etagere
 {
     public class Cable
     {
-        public AudioPort OutputPort;
-        public AudioPort InputPort;
-        public Line VisualLine;
+        public AudioPort OutPort { get; set; }
+        public AudioPort InPort { get; set; }
+        public Path Visual { get; set; }
     }
+
 }
