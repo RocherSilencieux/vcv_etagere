@@ -5,15 +5,13 @@ namespace vcv_etagere
 {
     public class AudioPort
     {
-        public IAudioNode Node;
-        public bool IsInput;
-        public FrameworkElement Visual;
+        public IAudioNode Node { get; set; }
+        public bool IsInput { get; set; }
+        public FrameworkElement Visual { get; set; }
 
-        public AudioPort(IAudioNode node, bool isInput, FrameworkElement visual)
-        {
-            Node = node;
-            IsInput = isInput;
-            Visual = visual;
-        }
+
     }
+
+
+
 }

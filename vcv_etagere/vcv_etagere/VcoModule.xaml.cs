@@ -10,18 +10,31 @@ namespace vcv_etagere
         public AudioPort PortOut;
         public VcoEngine Engine;
 
+        public event Action<UserControl> RequestDelete;
+
+     
+
         public VcoModule()
         {
             InitializeComponent();
-
-
             Engine = new VcoEngine(440);
             WaveCombo.SelectedIndex = 0;
         }
 
+
         public void InitializePort()
+        { 
+            PortOut = new AudioPort
+            {
+                Node = Engine,
+                IsInput = false,
+                Visual = OutputPort,
+            };
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            PortOut = new AudioPort(Engine, false, OutputPort);
+            RequestDelete?.Invoke(this);
         }
 
         private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

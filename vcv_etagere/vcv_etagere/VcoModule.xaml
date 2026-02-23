@@ -12,6 +12,14 @@
 
         <StackPanel>
 
+            <!-- Bouton delete -->
+            <Button Content="✕"
+            Width="20"
+            Height="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Delete_Click"/>
+
             <TextBlock Text="VCO"
                        FontSize="18"
                        FontWeight="Bold"

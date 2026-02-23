@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,32 +13,44 @@ namespace vcv_etagere
         private AudioPort selectedPort = null;
         private Path tempCable = null;
 
+        private AudioOutModule currentMaster = null;
+
+        private List<AudioPort> allPorts = new List<AudioPort>();
+
         public MainWindow()
         {
             InitializeComponent();
-
-            MyVcoModule.InitializePort();
-            MasterModule.InitializePort();
-
-            MyVcoModule.PortOut.Visual.MouseLeftButtonDown += PortClicked;
-            MasterModule.PortIn.Visual.MouseLeftButtonDown += PortClicked;
         }
 
-        //pour recuperer les port ( pas les cochons hein)
+        // ==============================
+        // DELETE MODULE
+        // ==============================
+        private void DeleteModule(UserControl module)
+        {
+            if (module.Parent is Panel panel)
+                panel.Children.Remove(module);
+
+            if (module == currentMaster)
+                currentMaster = null;
+
+            // Supprimer les ports liés au module
+            allPorts.RemoveAll(p => p.Visual.IsDescendantOf(module));
+        }
+
+        // ==============================
+        // PORT CLICK
+        // ==============================
         private void PortClicked(object sender, MouseButtonEventArgs e)
         {
-            AudioPort clickedPort = null;
-
-            if (sender == MyVcoModule.PortOut.Visual)
-                clickedPort = MyVcoModule.PortOut;
-
-            if (sender == MasterModule.PortIn.Visual)
-                clickedPort = MasterModule.PortIn;
+        
+            AudioPort clickedPort = allPorts.FirstOrDefault(p => p.Visual == sender);
 
             if (clickedPort == null)
                 return;
 
+            // --------------------------
             // PREMIER CLIC
+            // --------------------------
             if (selectedPort == null)
             {
                 selectedPort = clickedPort;
@@ -55,26 +69,49 @@ namespace vcv_etagere
                 return;
             }
 
+            // --------------------------
             // DEUXIÈME CLIC
+            // --------------------------
             MouseMove -= DragCable;
 
             if (tempCable != null)
                 CableLayer.Children.Remove(tempCable);
 
+            // Vérifie OUT → IN uniquement
+            AudioPort outPort = null;
+            AudioPort inPort = null;
+
             if (!selectedPort.IsInput && clickedPort.IsInput)
             {
-                if (selectedPort.Node != null )
-                {
-                    MasterModule.Engine.SetInput(selectedPort.Node);
-                    DrawCable(selectedPort, clickedPort);
-                }
+                outPort = selectedPort;
+                inPort = clickedPort;
             }
+            else if (selectedPort.IsInput && !clickedPort.IsInput)
+            {
+                outPort = clickedPort;
+                inPort = selectedPort;
+            }
+
+            if (outPort != null && inPort != null)
+            {
+                if (inPort.Visual.Tag is IAudioInput inputModule)
+                {
+              
+                    inputModule.Connect(outPort.Node);
+                }
+
+                DrawCable(outPort, inPort);
+            }
+
+
 
             tempCable = null;
             selectedPort = null;
         }
 
-        //gere le drag des cables
+        // ==============================
+        // DRAG CABLE
+        // ==============================
         private void DragCable(object sender, MouseEventArgs e)
         {
             if (tempCable == null || selectedPort == null)
@@ -86,7 +123,9 @@ namespace vcv_etagere
             tempCable.Data = CreateBezier(start, end);
         }
 
-        //On fait les belle courbes la meme ya des maths chiant
+        // ==============================
+        // BEZIER CURVE
+        // ==============================
         private PathGeometry CreateBezier(Point start, Point end)
         {
             double offset = Math.Abs(end.X - start.X) * 0.5;
@@ -102,10 +141,13 @@ namespace vcv_etagere
             };
 
             figure.Segments.Add(bezier);
+
             return new PathGeometry(new[] { figure });
         }
 
-        //desin des cables 
+        // ==============================
+        // DRAW FINAL CABLE
+        // ==============================
         private void DrawCable(AudioPort outPort, AudioPort inPort)
         {
             var path = new Path
@@ -127,10 +169,80 @@ namespace vcv_etagere
             path.MouseRightButtonDown += (s, e) =>
             {
                 CableLayer.Children.Remove(path);
-                MasterModule.Engine.DisconnectInput();
+
+                if (inPort.Visual.Tag is IAudioInput inputModule)
+                {
+                    inputModule.Disconnect();
+                }
             };
 
+
             CableLayer.Children.Add(path);
+        }
+
+        // ==============================
+        // CONTEXT MENU
+        // ==============================
+        private void MainGrid_RightClick(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu menu = new ContextMenu();
+
+            MenuItem vcoItem = new MenuItem { Header = "Add VCO" };
+            vcoItem.Click += (s, args) => AddVco(e.GetPosition(ModuleLayer));
+
+            MenuItem masterItem = new MenuItem { Header = "Add Master" };
+            masterItem.Click += (s, args) => AddMaster(e.GetPosition(ModuleLayer));
+
+            menu.Items.Add(vcoItem);
+            menu.Items.Add(masterItem);
+
+            menu.IsOpen = true;
+        }
+
+        // ==============================
+        // ADD VCO
+        // ==============================
+        private void AddVco(Point position)
+        {
+
+            var vco = new VcoModule();
+            vco.InitializePort();
+            vco.RequestDelete += DeleteModule;
+
+            ModuleLayer.Children.Add(vco);
+
+            Canvas.SetLeft(vco, position.X);
+            Canvas.SetTop(vco, position.Y);
+
+            allPorts.Add(vco.PortOut);
+            vco.PortOut.Visual.MouseLeftButtonDown += PortClicked;
+ 
+
+        }
+
+        // ==============================
+        // ADD MASTER
+        // ==============================
+        private void AddMaster(Point position)
+        {
+            if (currentMaster != null)
+                return;
+
+            var master = new AudioOutModule();
+            master.InitializePort();
+            master.RequestDelete += DeleteModule;
+
+            ModuleLayer.Children.Add(master);
+
+            Canvas.SetLeft(master, position.X);
+            Canvas.SetTop(master, position.Y);
+
+            currentMaster = master;
+
+            allPorts.Add(master.PortIn);
+            master.PortIn.Visual.MouseLeftButtonDown += PortClicked;
+          
+
         }
     }
 }

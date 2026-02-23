@@ -12,6 +12,14 @@
 
         <StackPanel>
 
+            <!-- Bouton delete -->
+            <Button Content="✕"
+            Width="20"
+            Height="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Delete_Click"/>
+
             <TextBlock Text="MASTER OUT"
                        Foreground="White"
                        FontSize="16"

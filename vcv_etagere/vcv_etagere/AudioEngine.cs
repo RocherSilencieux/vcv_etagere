@@ -45,6 +45,8 @@ namespace vcv_etagere
             _enabled = enabled;
         }
 
+
+
         //On ecrit dans le buffer
         public int Read(float[] buffer, int offset, int count)
         {
