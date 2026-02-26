@@ -55,7 +55,6 @@ namespace vcv_etagere
                         break;
 
                     case Wave.saw:
-                        // Normaliser la phase entre 0 et 1
                         float normalizedPhase = _phase / (2 * (float)Math.PI);
                         sampleValue = 2f * normalizedPhase - 1f;
                         break;
@@ -83,15 +82,12 @@ namespace vcv_etagere
             _frequency = freq;
         }
 
-        public void SetGain(float gain)
-        {
-            _gain = gain;
-        }
 
         public void SetWaveform(Wave wave)
         {
             waveShape = wave;
         }
+
 
     }
 }

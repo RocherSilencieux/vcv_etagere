@@ -6,10 +6,27 @@
         Height="500"
         Width="900">
 
-    <Grid Background="#222">
-        <local:VcoModule x:Name="MyVcoModule" Margin="50"/>
- 
+    <Grid x:Name="MainGrid" Background="#222"
+
+        MouseRightButtonDown="MainGrid_RightClick">
+
+        <!-- Layer modules -->
+        <StackPanel Orientation="Horizontal"
+                Panel.ZIndex="0">
+            <Canvas x:Name="ModuleLayer"
+                    Panel.ZIndex="1"/>
+        
+
+        </StackPanel>
+
+        <Canvas x:Name="CableLayer"
+        Panel.ZIndex="0"
+        IsHitTestVisible="True"/>
+
+
 
     </Grid>
+
+
 
 </Window>

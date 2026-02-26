@@ -6,14 +6,35 @@ namespace vcv_etagere
 {
     public partial class VcoModule : UserControl
     {
-        public VcoEngine Engine { get; set; }
+       
+        public AudioPort PortOut;
+        public VcoEngine Engine;
+
+        public event Action<UserControl> RequestDelete;
+
+     
 
         public VcoModule()
         {
             InitializeComponent();
-
-            //engine = new VcoEngine();
+            Engine = new VcoEngine(440);
             WaveCombo.SelectedIndex = 0;
+        }
+
+
+        public void InitializePort()
+        { 
+            PortOut = new AudioPort
+            {
+                Node = Engine,
+                IsInput = false,
+                Visual = OutputPort,
+            };
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            RequestDelete?.Invoke(this);
         }
 
         private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -47,13 +68,5 @@ namespace vcv_etagere
                     break;
             }
         }
-
-        private void GainSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Engine != null)
-                Engine.SetGain((float)e.NewValue);
-        }
-
-
     }
 }
