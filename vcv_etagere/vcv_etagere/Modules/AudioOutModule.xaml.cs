@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using vcv_etagere.Engines;
 
 namespace vcv_etagere
 {
     public partial class AudioOutModule : UserControl, IAudioInput
     {
-        public AudioEngine Engine;
+        public AudioOutEngine Engine;
         public AudioPort PortIn;
         public IAudioNode InputNode;
 
@@ -17,7 +18,7 @@ namespace vcv_etagere
         {
             InitializeComponent();
 
-            Engine = new AudioEngine();
+            Engine = new AudioOutEngine();
             
             _timer = new DispatcherTimer
             {

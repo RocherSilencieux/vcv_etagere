@@ -1,9 +1,11 @@
-﻿using NAudio.Wave;
+﻿using Microsoft.VisualBasic.Logging;
+using NAudio.Wave;
 using System;
+using System.Diagnostics;
 
-namespace vcv_etagere
+namespace vcv_etagere.Engines
 {
-    public class AudioEngine : ISampleProvider, IDisposable
+    public class AudioOutEngine : ISampleProvider, IDisposable
     {
         public WaveFormat WaveFormat { get; }
         private WaveOutEvent _waveOut;
@@ -14,7 +16,7 @@ namespace vcv_etagere
 
         public float CurrentLevel { get; private set; }
 
-        public AudioEngine()
+        public AudioOutEngine()
         {
             WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 1);
             _waveOut = new WaveOutEvent { DesiredLatency = 100 };

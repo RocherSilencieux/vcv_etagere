@@ -1,8 +1,8 @@
-﻿ using NAudio.Wave;
+﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.Security.Cryptography.X509Certificates;
 
-namespace vcv_etagere
+namespace vcv_etagere.Engines
 {
 
     public enum Wave {
