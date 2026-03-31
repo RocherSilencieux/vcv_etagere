@@ -29,7 +29,7 @@ namespace vcv_etagere.Engines
                 _rampFrequency.Target = value;
                 _frequency = value;
 
-            } 
+            }
         }
 
         public VcoEngine(float frequency)
