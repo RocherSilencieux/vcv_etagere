@@ -211,11 +211,15 @@ namespace vcv_etagere
             MenuItem adsrItem = new MenuItem { Header = "Add ADSR" };
             adsrItem.Click += (s, args) => AddAdsr(e.GetPosition(ModuleLayer));
 
+            MenuItem scopeItem = new MenuItem { Header = "Add Scope" };
+            scopeItem.Click += (s, args) => AddScope(e.GetPosition(ModuleLayer));
+
             MenuItem masterItem = new MenuItem { Header = "Add Master" };
             masterItem.Click += (s, args) => AddMaster(e.GetPosition(ModuleLayer));
 
             menu.Items.Add(vcoItem);
             menu.Items.Add(adsrItem);
+            menu.Items.Add(scopeItem);
             menu.Items.Add(masterItem);
 
             menu.IsOpen = true;
@@ -260,6 +264,24 @@ namespace vcv_etagere
             allPorts.Add(adsr.PortOut);
             adsr.PortIn.Visual.MouseLeftButtonDown += PortClicked;
             adsr.PortOut.Visual.MouseLeftButtonDown += PortClicked;
+        }
+
+        // ==============================
+        // ADD SCOPE
+        // ==============================
+        private void AddScope(Point position)
+        {
+            var scope = new ScopeModule();
+            scope.InitializePort();
+            scope.RequestDelete += DeleteModule;
+
+            ModuleLayer.Children.Add(scope);
+
+            Canvas.SetLeft(scope, position.X);
+            Canvas.SetTop(scope, position.Y);
+
+            allPorts.Add(scope.PortIn);
+            scope.PortIn.Visual.MouseLeftButtonDown += PortClicked;
         }
 
         // ==============================
